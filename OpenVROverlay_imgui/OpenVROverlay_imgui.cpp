@@ -271,10 +271,8 @@ void RenderOverlay( HWND hWnd )
   while ( vr::VROverlay()->PollNextOverlayEvent( g_ulOverlayHandle, &Event, sizeof( Event ) ) ) {
     switch ( Event.eventType ) {
     case vr::VREvent_MouseMove:
-      // 座標変換 TODO:
       break;
     case vr::VREvent_MouseButtonDown:
-      // クリック処理 TODO:
       break;
     }
   }
@@ -340,4 +338,15 @@ void ImGui_ImplWin32_NewFrame_VR( HWND hWnd, vr::VREvent_t* pEvent )
   float pos_x = pEvent->data.mouse.x * io.DisplaySize.x;
   float pos_y = (1.0f - pEvent->data.mouse.y) * io.DisplaySize.y;
   io.MousePos = ImVec2( pos_x, pos_y );
+
+  // クリック処理
+  switch ( pEvent->eventType ) {
+  case vr::VREvent_MouseButtonDown:
+    io.MouseDown[0] = true;
+    break;
+  case vr::VREvent_MouseButtonUp:
+    io.MouseDown[0] = false;
+    break;
+  }
+
 }
